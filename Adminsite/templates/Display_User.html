@@ -1,0 +1,167 @@
+
+<!DOCTYPE html>
+{% extends 'Add_Category.html' %}
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Users List</title>
+
+    <style>
+        .users-container {
+            flex: 1;
+            padding: 35px;
+            overflow-x: auto;
+            animation: fadeIn 0.7s ease;
+        }
+
+        .users-table {
+            width: 100%;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(30, 41, 59, 0.08);
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .users-table thead th {
+            background-color: #172554;
+            color: #ffffff;
+            padding: 16px 12px;
+            font-size: 14px;
+            font-weight: 600;
+            white-space: nowrap;
+            border: none;
+        }
+
+        .users-table tbody td,
+        .users-table tbody th {
+            padding: 13px 12px;
+            vertical-align: middle;
+            color: #334155;
+            font-size: 14px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .users-table tbody tr {
+            background-color: #ffffff;
+            transition: background-color 0.25s ease;
+        }
+
+        .users-table tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .users-table tbody tr:hover {
+            background-color: #eaf2ff;
+        }
+
+        .users-table img {
+            width: 65px;
+            height: 65px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .users-table .btn {
+            border-radius: 5px;
+            font-size: 13px;
+            padding: 7px 12px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            margin: 2px;
+        }
+
+        .users-table .btn-primary {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+
+        .users-table .btn-primary:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .users-table .btn-danger:hover {
+            transform: translateY(-2px);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .users-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="users-container">
+
+    <table class="table users-table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Date Joined</th>
+                <th scope="col">Profile Image</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+
+                <td>{{ user.username }}</td>
+
+                <td>{{ user.email }}</td>
+
+                <td>{{ user.full_name|default:"N/A" }}</td>
+
+                <td>{{ user.phone|default:"N/A" }}</td>
+
+                <td>{{ user.date_joined }}</td>
+
+                <td>
+                    {% if user.profile_image %}
+                        <img src="{{ user.profile_image.url }}" width="100px" height="100px">
+                    {% else %}
+                        No Image
+                    {% endif %}
+                </td>
+
+                <td>
+                    <a href="{% url 'user_profile' username=user.username %}" class="btn btn-primary">View Profile</a>
+
+                    <a href="{% url 'delete_user' user.id %}" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+
+</body>
+</html>
+
+{% endblock %}

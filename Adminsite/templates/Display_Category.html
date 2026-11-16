@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends 'Add_Category.html' %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class="table table-dark table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Category Name</th>
+      <th scope="col">Image</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for d in data %}
+    <tr>
+      <th scope="row">{{forloop.counter}}</th>
+      <td>{{d.Cat_Name}}</td>
+      <td><img src="{{d.Cat_Image.url}}" width="100px;" height="100px;"></td>
+      <td>
+          <a href="{% url 'edit_category' c_id=d.id %}" class="btn btn-primary">Edit</a>
+          <a href="{% url 'delete_category' c_id=d.id %}" class="btn btn-danger">Delete</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,365 @@
+
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <title>Login 10</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'reg/css/style.css' %}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Lato', sans-serif;
+
+            background-image: none !important;
+            background: linear-gradient(
+                -45deg,
+                #050816,
+                #0b1128,
+                #101b3d,
+                #160d30
+            );
+
+            background-size: 400% 400%;
+            animation: gradientFade 16s ease infinite;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        body.img {
+            background-image: none !important;
+        }
+
+        @keyframes gradientFade {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .ftco-section {
+            width: 100%;
+            padding: 50px 15px;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .heading-section {
+            color: #ffffff;
+            font-size: 42px;
+            font-weight: 700;
+            letter-spacing: 3px;
+            animation: fadeDown 1s ease;
+            text-shadow: 0 0 20px rgba(125, 100, 255, 0.3);
+        }
+
+        .login-wrap {
+            background: rgba(5, 8, 22, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 20px;
+
+            padding: 40px 30px !important;
+
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
+
+            animation: fadeUp 1s ease;
+
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+        }
+
+        .login-wrap:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 22px 55px rgba(0, 0, 0, 0.55);
+        }
+
+        .login-wrap h3 {
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 35px !important;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+            position: relative;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 52px;
+
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+
+            background: rgba(255, 255, 255, 0.06);
+            color: #ffffff;
+
+            padding: 12px 16px;
+            font-size: 15px;
+
+            outline: none;
+
+            transition: all 0.3s ease;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.55);
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.10);
+            border-color: #7868ff;
+            box-shadow: 0 0 15px rgba(120, 104, 255, 0.25);
+        }
+
+        .submit {
+            background: linear-gradient(
+                120deg,
+                #4936a5,
+                #6845c5,
+                #4936a5
+            );
+
+            border: none;
+            color: white;
+
+            font-weight: 700;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            transition: all 0.35s ease;
+        }
+
+        .submit:hover {
+            background: linear-gradient(
+                120deg,
+                #6845c5,
+                #805de0,
+                #4936a5
+            );
+
+            transform: translateY(-3px);
+
+            box-shadow: 0 8px 22px rgba(104, 69, 197, 0.4);
+        }
+
+        .submit:active {
+            transform: scale(0.97);
+        }
+
+        .field-icon {
+            position: absolute;
+            right: 17px;
+            top: 17px;
+
+            color: rgba(255, 255, 255, 0.7);
+
+            cursor: pointer;
+            z-index: 5;
+
+            transition: color 0.3s ease;
+        }
+
+        .field-icon:hover {
+            color: #ffffff;
+        }
+
+        .toggle-password {
+            font-size: 17px;
+        }
+
+        .checkbox-wrap {
+            color: rgba(255, 255, 255, 0.8);
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .checkbox-wrap input {
+            accent-color: #7868ff;
+            margin-left: 5px;
+        }
+
+        .w-50 {
+            width: 50%;
+        }
+
+        .d-md-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .heading-section {
+                font-size: 34px;
+            }
+
+            .login-wrap {
+                padding: 30px 22px !important;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<section class="ftco-section">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-5">
+                <h2 class="heading-section">Forum</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+
+                <div class="login-wrap p-0">
+
+                    <h3 class="mb-4 text-center">Have an account?</h3>
+
+                    <form action="{% url 'admin_login' %}" class="signin-form" method="post">
+
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Email"
+                                name="lo_mail"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <input
+                                id="password-field"
+                                type="password"
+                                class="form-control"
+                                placeholder="Password"
+                                name="lo_pass"
+                                required
+                            >
+
+                            <span
+                                toggle="#password-field"
+                                class="fa fa-fw fa-eye field-icon toggle-password">
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <button
+                                type="submit"
+                                class="form-control btn btn-primary submit px-3">
+                                Sign In
+                            </button>
+                        </div>
+
+                        <div class="form-group d-md-flex">
+
+                            <div class="w-50">
+                                <label class="checkbox-wrap checkbox-primary">
+                                    Remember Me
+
+                                    <input type="checkbox" checked>
+
+                                    <span class="checkmark"></span>
+                                </label>
+                            </div>
+
+                            <div class="w-50 text-md-right">
+                                <a href="#" style="color: #fff"></a>
+                            </div>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.querySelector('.toggle-password').addEventListener('click', function () {
+
+        var passwordField = document.querySelector('#password-field');
+
+        var type = passwordField.type === 'password' ? 'text' : 'password';
+
+        passwordField.type = type;
+
+        this.classList.toggle('fa-eye-slash');
+
+    });
+</script>
+
+<script src="{% static ' reg/js/jquery.min.js' %}"></script>
+<script src="{% static ' reg/js/popper.js' %}"></script>
+<script src="{% static ' reg/js/bootstrap.min.js' %}"></script>
+<script src="{% static ' reg/js/main.js' %}"></script>
+
+</body>
+</html>
