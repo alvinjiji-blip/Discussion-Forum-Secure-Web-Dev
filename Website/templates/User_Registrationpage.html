@@ -1,86 +1,376 @@
+
 <!doctype html>
 {% load static %}
 <html lang="en">
-  <head>
-  	<title>Login 10</title>
+<head>
+    <title>Forum | Register</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'reg/css/style.css' %}">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        * { box-sizing: border-box; }
 
-	<link rel="stylesheet" href="{% static 'reg/css/style.css' %}">
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(-45deg, #061b19, #064e3b, #0f3d46, #092c35);
+            background-size: 300% 300%;
+            animation: gradientMove 7s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 30px 15px;
+        }
 
-	</head>
-	<body class="img js-fullheight" style="background-image: url({% static 'reg/images/chat1.jpg' %});">
-	<section class="ftco-section">
-		<div class="container">
-			<div class="row justify-content-center">
-				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Forum</h2>
-				</div>
-			</div>
-			<div class="row justify-content-center">
-				<div class="col-md-6 col-lg-4">
-					<div class="login-wrap p-0">
-		      	<h3 class="mb-4 text-center">Register Here..</h3>
-		      	<form action="{% url 'reg_save' %}" class="signin-form" method="post">
-					{% csrf_token %}
-		      		<div class="form-group">
-		      			<input type="text" class="form-control" placeholder="Name" name="reg_name" required>
-		      		</div>
-		      		<div class="form-group">
-		      			<input type="text" class="form-control" placeholder="User Name" name="reg_uname" required>
-		      		</div>
-		      		<div class="form-group">
-		      			<input type="text" class="form-control" placeholder="Email Id" name="reg_mail" required>
-		      		</div>
-		      		<div class="form-group">
-		      			<input type="text" class="form-control" placeholder="Mobile" name="reg_mob" required>
-		      		</div>
-	            <div class="form-group">
-	              <input id="password-field" type="password" class="form-control" placeholder="Password" name="reg_pass" required>
-	              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
-	            </div>
-	            <div class="form-group">
-	            	<button type="submit" class="form-control btn btn-primary submit px-3">Sign Up</button>
-	            </div>
-	            <div class="form-group d-md-flex">
-	            	<div class="w-50">
-		            	<label class="checkbox-wrap checkbox-primary">Remember Me
-									  <input type="checkbox" checked>
-									  <span class="checkmark"></span>
-									</label>
-								</div>
-								<div class="w-50 text-md-right">
-									<a href="#" style="color: #fff"></a>
-								</div>
-	            </div>
-	          </form>
-	          <p class="w-100 text-center">&mdash; Already a Member &mdash;</p>
-	          <div class="form-group">
-	            	<a type="submit" href="{% url 'user_login_page' %}" class="form-control btn btn-primary px-3">Sign In</a>
-	            </div>
-		      </div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<script>
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .ftco-section { width: 100%; position: relative; padding: 25px 0; }
+        .container { max-width: 1100px; margin: auto; }
+
+        .heading-section {
+            color: #fff;
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 35px;
+            text-shadow: 0 0 25px rgba(52, 211, 153, 0.5);
+            animation: fadeDown 0.6s ease both;
+        }
+
+        .register-card {
+            position: relative;
+            background: rgba(5, 30, 29, 0.84);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 22px;
+            padding: 38px 32px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5),
+                        0 0 25px rgba(16,185,129,0.12);
+            animation: cardAppear 0.65s ease both;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .register-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 65px rgba(0,0,0,0.55),
+                        0 0 30px rgba(16,185,129,0.2);
+        }
+
+        .register-card h3 {
+            color: #fff;
+            font-size: 27px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .subtitle {
+            color: #a7c9c0;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .form-group { position: relative; margin-bottom: 19px; }
+
+        .register-card .form-control {
+            width: 100%;
+            height: 52px;
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 11px;
+            background: rgba(255,255,255,0.07);
+            color: #fff;
+            padding: 12px 17px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .register-card .form-control::placeholder { color: #a9c4bd; }
+
+        .register-card .form-control:focus {
+            background: rgba(255,255,255,0.11);
+            border-color: #34d399;
+            box-shadow: 0 0 0 3px rgba(52,211,153,0.13),
+                        0 0 18px rgba(52,211,153,0.2);
+            color: #fff;
+        }
+
+        .password-input { padding-right: 48px !important; }
+
+        .field-icon {
+            position: absolute;
+            right: 17px;
+            top: 17px;
+            color: #a7c9c0;
+            cursor: pointer;
+            z-index: 5;
+            font-size: 17px;
+        }
+
+        .field-icon:hover { color: #fff; }
+
+        .register-card .submit {
+            height: 54px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(120deg, #059669, #34d399);
+            color: #062c25;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .register-card .submit:hover {
+            background: linear-gradient(120deg, #10b981, #6ee7b7);
+            transform: translateY(-3px);
+            box-shadow: 0 9px 25px rgba(16,185,129,0.3);
+        }
+
+        .checkbox-wrap {
+            color: #b8d4cb;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .checkbox-wrap input {
+            accent-color: #34d399;
+            margin-right: 6px;
+        }
+
+        .divider-text {
+            color: #a7c9c0;
+            text-align: center;
+            font-size: 14px;
+            margin: 23px 0 18px;
+        }
+
+        .secondary-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 49px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 11px;
+            background: rgba(255,255,255,0.07);
+            color: #e0fff3;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(52,211,153,0.13);
+            border-color: #34d399;
+            color: #fff;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* Profile photo field */
+        .photo-label {
+            display: block;
+            color: #b8d4cb;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .photo-input {
+            height: auto !important;
+            padding: 12px !important;
+            color: #b8d4cb !important;
+        }
+
+        /* Django messages */
+        .message-box {
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 9px;
+            font-size: 14px;
+            text-align: center;
+            background: rgba(220, 38, 38, 0.15);
+            border: 1px solid rgba(248, 113, 113, 0.5);
+            color: #fca5a5;
+        }
+
+        .message-box.success {
+            background: rgba(16,185,129,0.15);
+            border-color: rgba(52,211,153,0.5);
+            color: #6ee7b7;
+        }
+
+        @keyframes cardAppear {
+            from { opacity: 0; transform: translateY(25px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-18px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 576px) {
+            .heading-section { font-size: 38px; }
+            .register-card { padding: 32px 23px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<section class="ftco-section">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-4">
+                <h2 class="heading-section">FORUM</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+
+                <div class="register-card">
+
+                    <h3 class="text-center">Create Account</h3>
+                    <p class="subtitle">Join the community and start connecting.</p>
+
+                    <!-- Display error and success messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="message-box {% if message.tags == 'success' %}success{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form action="{% url 'reg_save' %}"
+                          class="signin-form"
+                          method="post"
+                          enctype="multipart/form-data"
+                          autocomplete="off">
+
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <input type="text" class="form-control"
+                                   placeholder="Name" name="reg_name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="text" class="form-control"
+                                   placeholder="Username" name="reg_uname" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="email" class="form-control"
+                                   placeholder="Email Address" name="reg_mail" required>
+                        </div>
+
+                        <div class="form-group">
+                            <input type="tel" class="form-control"
+                                   placeholder="Mobile Number" name="reg_mob" required>
+                        </div>
+
+                        <!-- Profile photo upload -->
+                        <div class="form-group">
+                            <label for="reg_profile_image" class="photo-label">
+                                <i class="fa fa-camera"></i> Add Profile Photo
+                            </label>
+
+                            <input
+                                type="file"
+                                class="form-control photo-input"
+                                name="reg_profile_image"
+                                id="reg_profile_image"
+                                accept="image/*"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <input id="password-field"
+                                   type="password"
+                                   class="form-control password-input"
+                                   placeholder="Password"
+                                   name="reg_pass"
+                                   required>
+
+                            <span class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="form-control submit">
+                                CREATE ACCOUNT
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-wrap">
+                                <input type="checkbox" checked>
+                                Remember Me
+                            </label>
+                        </div>
+
+                    </form>
+
+                    <p class="divider-text">— Already a Member? —</p>
+
+                    <div class="form-group mb-0">
+                        <a href="{% url 'user_login_page' %}" class="secondary-btn">
+                            <i class="fa fa-sign-in" style="margin-right: 9px;"></i>
+                            Sign In
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
     document.querySelector('.toggle-password').addEventListener('click', function () {
         var passwordField = document.querySelector('#password-field');
-        var type = passwordField.type === 'password' ? 'text' : 'password';
-        passwordField.type = type;
-        this.classList.toggle('fa-eye-slash');
+
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            this.classList.remove('fa-eye');
+            this.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            this.classList.remove('fa-eye-slash');
+            this.classList.add('fa-eye');
+        }
     });
 </script>
 
-	<script src="{% static ' reg/js/jquery.min.js' %}"></script>
-  <script src="{% static ' reg/js/popper.js' %}"></script>
-  <script src="{% static ' reg/js/bootstrap.min.js' %}"></script>
-  <script src="{% static ' reg/js/main.js' %}"></script>
+<script src="{% static 'reg/js/jquery.min.js' %}"></script>
+<script src="{% static 'reg/js/popper.js' %}"></script>
+<script src="{% static 'reg/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'reg/js/main.js' %}"></script>
 
-	</body>
+</body>
 </html>
-

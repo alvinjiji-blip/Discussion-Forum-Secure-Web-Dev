@@ -1,324 +1,903 @@
+
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>App Dashboard</title>
+    <title>Forum | Dashboard</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
         }
 
         body {
-            display: flex;
             min-height: 100vh;
-            background-color: #f8f9fa;
-            padding-top: 60px;
+            background: #edf2f8;
+            color: #263449;
+            padding-top: 75px;
         }
 
-        .sidebar {
-            width: 250px;
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-right: 1px solid #e0e0e0;
-            height: calc(100vh - 60px);
-            position: fixed;
-            left: 0;
-            top: 60px;
-            overflow-y: auto;
-        }
-
-        .right-sidebar {
-            width: 250px;
-            background-color: #f5f5f5;
-            padding: 20px;
-            border-left: 1px solid #e0e0e0;
-            height: calc(80vh - 80px); /* Reduced height and added extra space from navbar */
-            position: fixed;
-            right: 0;
-            top: 80px; /* Added extra space from navbar */
-            overflow-y: auto;
-        }
+        /* Navbar */
 
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
-            right: 0;
-            height: 60px;
-            background-color: white;
+            width: 100%;
+            height: 75px;
+            padding: 0 5%;
+            background: #14243b;
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 0 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            align-items: center;
+            box-shadow: 0 4px 18px rgba(15,35,60,0.15);
             z-index: 1000;
+        }
+
+        .app-name {
+            color: white;
+            font-size: 27px;
+            font-weight: 750;
+            letter-spacing: 1px;
         }
 
         .navbar-right {
             display: flex;
-            gap: 1rem;
             align-items: center;
+            gap: 12px;
         }
 
-        .app-name {
-            font-size: 1.25rem;
+        .navbar-right img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #d9e6f5;
+        }
+
+        .profile-button {
+            text-decoration: none;
+            color: white;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.18);
+            border-radius: 25px;
+            padding: 9px 18px;
             font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .profile-button:hover {
+            background: rgba(255,255,255,0.22);
+            color: white;
+        }
+
+        /* Logout button */
+
+        .logout-form {
+            margin: 0;
+        }
+
+        .logout-button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 9px 18px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .logout-button:hover {
+            background: #bb2d3b;
+        }
+
+        /* Dashboard */
+
+        .dashboard {
+            display: flex;
+            max-width: 1600px;
+            margin: auto;
+        }
+
+        /* Sidebar */
+
+        .sidebar {
+            width: 235px;
+            position: fixed;
+            top: 75px;
+            left: 0;
+            bottom: 0;
+            padding: 25px 18px;
+            background: white;
+            border-right: 1px solid #e3eaf2;
+        }
+
+        .sidebar-heading {
+            color: #96a2b2;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin: 8px 12px 16px;
         }
 
         .nav-item {
             display: flex;
             align-items: center;
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            color: #333;
+            gap: 13px;
+            padding: 13px 15px;
+            margin-bottom: 8px;
+            color: #526176;
             text-decoration: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.2s;
         }
 
-        .nav-item:hover {
-            background-color: #e9ecef;
-        }
-
+        .nav-item:hover,
         .nav-item.active {
-            background-color: #e9ecef;
+            background: #eaf1fa;
+            color: #174c85;
         }
+
+        .sidebar-note {
+            margin-top: 35px;
+            padding: 17px;
+            background: #f0f5fb;
+            border-radius: 12px;
+            color: #64748b;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Main content */
 
         .main-content {
-            flex: 1;
-            padding: 2rem;
-            margin-left: 250px;
-            margin-right: 250px;
-            max-width: calc(100vw - 500px);
-            overflow-x: hidden;
+            width: calc(100% - 235px);
+            margin-left: 235px;
+            padding: 30px 35px 60px;
+            min-width: 0;
+        }
+
+        .welcome-heading {
+            margin-bottom: 6px;
+            color: #14243b;
+            font-size: 27px;
+            font-weight: 750;
+        }
+
+        .welcome-text {
+            color: #8491a3;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        /* Carousel */
+
+        .section-title {
+            color: #14243b;
+            font-size: 21px;
+            font-weight: 750;
+            margin-bottom: 18px;
         }
 
         .carousel-container {
             position: relative;
-            margin: 2rem 0; /* Added margin top and bottom */
             width: 100%;
-            max-width: 800px; /* Reduced max-width */
-            margin-left: auto;
-            margin-right: auto;
+            margin-bottom: 35px;
         }
 
         .carousel {
             display: flex;
-            gap: 1rem;
-            overflow-x: hidden;
-            padding: 0.5rem;
+            gap: 18px;
+            overflow-x: auto;
             scroll-behavior: smooth;
+            padding: 5px 3px 15px;
+            scrollbar-width: none;
+        }
+
+        .carousel::-webkit-scrollbar {
+            display: none;
         }
 
         .carousel-card {
+            width: 275px;
+            height: 190px;
+            flex: 0 0 275px;
             position: relative;
-            width: 280px; /* Reduced width */
-            height: 180px; /* Adjusted height */
-            border-radius: 1rem;
             overflow: hidden;
-            flex-shrink: 0;
+            border-radius: 15px;
+            background: #263b56;
+            box-shadow: 0 5px 18px rgba(25,48,78,0.12);
         }
 
         .carousel-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .carousel-card:hover img {
+            transform: scale(1.06);
         }
 
         .carousel-content {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem;
-            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 20px;
             color: white;
+            background: linear-gradient(transparent 15%, rgba(10,25,45,0.85));
+        }
+
+        .carousel-content h3 {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .carousel-content p {
+            font-size: 13px;
+            margin: 0;
+            color: #e3eaf3;
         }
 
         .carousel-nav {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
-            background-color: white;
-            border-radius: 50%;
+            width: 39px;
+            height: 39px;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15);
             cursor: pointer;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 100;
+            z-index: 5;
+            font-size: 22px;
+            user-select: none;
+        }
+
+        .carousel-nav:hover {
+            background: #eaf1fa;
         }
 
         .carousel-nav.prev {
-            left: -20px;
+            left: -15px;
         }
 
         .carousel-nav.next {
-            right: -20px;
+            right: -15px;
         }
 
-        .action-button {
-            padding: 0.5rem;
-            cursor: pointer;
-            background: none;
+        /* Categories */
+
+        .category-section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 35px;
+            border: 1px solid #e3eaf2;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(30,55,85,0.05);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .category-header h2 {
+            color: #14243b;
+            font-size: 21px;
+            font-weight: 750;
+            margin: 0;
+        }
+
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .category-link {
+            display: inline-block;
+            padding: 10px 19px;
+            color: #315b88;
+            background: #eef4fb;
+            border: 1px solid #dce7f4;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 650;
+            transition: 0.2s;
+        }
+
+        .category-link:hover {
+            background: #14243b;
+            color: white;
+            border-color: #14243b;
+        }
+
+        .add-category-button {
+            background: #245b91;
             border: none;
-            font-size: 1.25rem;
+            border-radius: 9px;
+            padding: 10px 17px;
+            font-weight: 600;
+        }
+
+        .add-category-button:hover {
+            background: #17436e;
+        }
+
+        /* Modal */
+
+        .modal-content {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            background: #14243b;
+            color: white;
+            padding: 20px;
+        }
+
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
+
+        .modal-body {
+            padding: 25px;
+        }
+
+        /* Recent Posts */
+
+        .posts-heading {
+            color: #14243b;
+            font-size: 22px;
+            font-weight: 750;
+            margin-bottom: 20px;
         }
 
         .featured-content {
+            max-width: 850px;
+            margin: 0 auto 25px;
+            padding: 22px;
             background: white;
-            border-radius: 1rem;
-            padding: 1.5rem;
-            margin-top: 3rem; /* Increased top margin */
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid #e1e8f1;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(30,55,85,0.06);
+            transition: 0.2s;
         }
 
-        .featured-content h2 {
-            margin-bottom: 1.5rem; /* Added space below heading */
-            font-size: 1.5rem;
-            color: #333;
+        .featured-content:hover {
+            box-shadow: 0 9px 25px rgba(30,55,85,0.10);
+            transform: translateY(-2px);
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+
+        .post-user {
+            color: #14243b;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .post-category {
+            color: #245b91;
+            background: #eef4fb;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 12px;
+            font-weight: 650;
         }
 
         .featured-image-container {
-            margin: 2rem 0; /* Added space around image container */
+            margin: 15px 0;
+            background: #f3f6fa;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .featured-image {
+            display: block;
             width: 100%;
-            height: 400px;
-            border-radius: 0.5rem;
-            object-fit: cover;
+            max-height: 480px;
+            object-fit: contain;
+        }
+
+        .post-caption {
+            color: #526176;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 15px 0;
+            overflow-wrap: anywhere;
         }
 
         .action-buttons {
             display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            padding-top: 1rem;
-            border-top: 1px solid #e0e0e0;
+            gap: 12px;
+            margin-top: 18px;
+            padding-top: 15px;
+            border-top: 1px solid #edf0f5;
+        }
+
+        .action-button {
+            padding: 8px 15px;
+            color: #526176;
+            background: #f0f4f9;
+            border: none;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .action-button:hover {
+            background: #dce8f7;
+            color: #174c85;
         }
 
         .bookmark {
             margin-left: auto;
         }
+
+        .empty-message {
+            padding: 35px;
+            text-align: center;
+            background: white;
+            color: #8491a3;
+            border-radius: 14px;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 190px;
+            }
+
+            .main-content {
+                width: calc(100% - 190px);
+                margin-left: 190px;
+                padding: 25px 20px;
+            }
+        }
+
+        @media (max-width: 700px) {
+            body {
+                padding-top: 65px;
+            }
+
+            .navbar {
+                height: 65px;
+                padding: 0 16px;
+            }
+
+            .app-name {
+                font-size: 23px;
+            }
+
+            .navbar-right {
+                gap: 7px;
+            }
+
+            .profile-button {
+                padding: 7px 10px;
+                font-size: 12px;
+            }
+
+            .logout-button {
+                padding: 7px 10px;
+                font-size: 12px;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .main-content {
+                width: 100%;
+                margin-left: 0;
+                padding: 22px 14px 40px;
+            }
+
+            .welcome-heading {
+                font-size: 23px;
+            }
+
+            .carousel-card {
+                width: 245px;
+                flex-basis: 245px;
+                height: 165px;
+            }
+
+            .category-section {
+                padding: 18px;
+            }
+
+            .category-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .featured-content {
+                padding: 16px;
+            }
+
+            .featured-image {
+                max-height: 350px;
+            }
+        }
     </style>
 </head>
-<body style="background-image:url({% static 'reg/images/img_1.png' %}">
+
+<body>
+
+    <!-- Navbar -->
+
     <nav class="navbar">
+
         <div class="app-name">Forum</div>
+
         <div class="navbar-right">
-            <img src="{{user.profile_image.url}}" width="30px;" >
-            <a href="{% url 'profile_page' %}"><button class="btn btn-light">{{user.full_name}}</button></a>
+
+            {% if user.profile_image %}
+                <img src="{{ user.profile_image.url }}" alt="Profile">
+            {% else %}
+                <div style="width:40px;height:40px;border-radius:50%;
+                            background:#e3eaf2;display:flex;
+                            align-items:center;justify-content:center;">
+                    👤
+                </div>
+            {% endif %}
+
+            <a href="{% url 'profile_page' %}" class="profile-button">
+                {{ user.full_name }}
+            </a>
+
+            <!-- Logout Button -->
+
+            <form method="POST" action="{% url 'logout' %}" class="logout-form">
+                {% csrf_token %}
+                <button type="submit" class="logout-button">
+                    Logout
+                </button>
+            </form>
+
         </div>
+
     </nav>
 
+    <div class="dashboard">
 
+        <!-- Sidebar -->
 
-    <main class="main-content">
-        <div class="carousel-container">
-            <div class="carousel-nav prev" onclick="scrollCarousel('left')">←</div>
-            <div class="carousel-nav next" onclick="scrollCarousel('right')">→</div>
-            <div class="carousel" id="carousel">
-                {% for c in items %}
-                <div class="carousel-card">
-                    <img src="{{c.image.url}}" alt="Digital Innovation">
-                    <div class="carousel-content">
-                        <h3>{{c.category}}</h3>
-                        <p>{{c.caption}}</p>
-                    </div>
+        <aside class="sidebar">
+
+            <div class="sidebar-heading">MENU</div>
+
+            <a href="{% url 'front_page' %}" class="nav-item active">
+                🏠 Dashboard
+            </a>
+
+            <a href="{% url 'profile_page' %}" class="nav-item">
+                👤 My Profile
+            </a>
+
+            <a href="#categories" class="nav-item">
+                📁 Categories
+            </a>
+
+            <a href="#posts" class="nav-item">
+                📝 Recent Posts
+            </a>
+
+            <div class="sidebar-note">
+                <strong>Welcome to Forum!</strong>
+                <p class="mb-0 mt-2">
+                    Explore discussions, discover categories and share your interests with the community.
+                </p>
+            </div>
+
+        </aside>
+
+        <!-- Main Content -->
+
+        <main class="main-content">
+
+            <h1 class="welcome-heading">
+                Welcome back, {{ user.full_name }}
+            </h1>
+
+            <p class="welcome-text">
+                Explore the latest posts and discover what's happening in your community.
+            </p>
+
+            <!-- Featured Carousel -->
+
+            <h2 class="section-title">Featured Posts</h2>
+
+            <div class="carousel-container">
+
+                <div class="carousel-nav prev"
+                     onclick="scrollCarousel('left')">
+                    &#8592;
                 </div>
 
+                <div class="carousel-nav next"
+                     onclick="scrollCarousel('right')">
+                    &#8594;
+                </div>
+
+                <div class="carousel" id="carousel">
+
+                    {% for c in items %}
+
+                        {% if c.image %}
+
+                            <div class="carousel-card">
+
+                                <img src="{{ c.image.url }}" alt="Featured post">
+
+                                <div class="carousel-content">
+                                    <h3>{{ c.category }}</h3>
+                                    <p>{{ c.caption|truncatechars:80 }}</p>
+                                </div>
+
+                            </div>
+
+                        {% endif %}
+
+                    {% empty %}
+
+                        <p class="text-muted">No featured posts available.</p>
+
+                    {% endfor %}
+
+                </div>
+
+            </div>
+
+            <!-- Categories -->
+
+            <section class="category-section" id="categories">
+
+                <div class="category-header">
+
+                    <h2>Explore Categories</h2>
+
+                    <button class="btn btn-primary add-category-button"
+                            data-bs-toggle="modal"
+                            data-bs-target="#categoryRequestModal">
+                        + Add Category
+                    </button>
+
+                </div>
+
+                <div class="category-list">
+
+                    {% for d in data %}
+
+                        <a href="{% url 'category_page' c_id=d.id %}"
+                           class="category-link">
+                            {{ d.Cat_Name }}
+                        </a>
+
+                    {% empty %}
+
+                        <p class="text-muted">No categories available.</p>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            <!-- Add Category Modal -->
+
+            <div class="modal fade" id="categoryRequestModal"
+                 tabindex="-1"
+                 aria-labelledby="categoryRequestModalLabel"
+                 aria-hidden="true">
+
+                <div class="modal-dialog modal-dialog-centered">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h5 class="modal-title"
+                                id="categoryRequestModalLabel">
+                                Request a New Category
+                            </h5>
+
+                            <button type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close">
+                            </button>
+
+                        </div>
+
+                        <div class="modal-body">
+
+                            <form method="POST"
+                                  action="{% url 'save_request' %}"
+                                  enctype="multipart/form-data">
+
+                                {% csrf_token %}
+
+                                <div class="mb-3">
+
+                                    <label for="categoryName"
+                                           class="form-label">
+                                        Category Name
+                                    </label>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           id="categoryName"
+                                           name="category_name"
+                                           placeholder="Enter category name"
+                                           required>
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label for="categoryImage"
+                                           class="form-label">
+                                        Category Image
+                                    </label>
+
+                                    <input type="file"
+                                           class="form-control"
+                                           id="categoryImage"
+                                           name="category_image"
+                                           accept="image/*"
+                                           required>
+
+                                </div>
+
+                                <button type="submit"
+                                        class="btn btn-success w-100">
+                                    Submit Request
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Recent Posts -->
+
+            <section id="posts">
+
+                <h2 class="posts-heading">Recent Posts</h2>
+
+                {% for c in items %}
+
+                    <article class="featured-content">
+
+                        <div class="post-header">
+
+                            <div class="post-user">
+                                👤 {{ c.user }}
+                            </div>
+
+                            <div class="post-category">
+                                #{{ c.category }}
+                            </div>
+
+                        </div>
+
+                        {% if c.image %}
+
+                            <div class="featured-image-container">
+
+                                <img src="{{ c.image.url }}"
+                                     alt="Post image"
+                                     class="featured-image">
+
+                            </div>
+
+                        {% endif %}
+
+                        <p class="post-caption">
+                            {{ c.caption }}
+                        </p>
+
+                        <div class="action-buttons">
+
+                            <button type="button" class="action-button">
+                                ♥️ Like
+                            </button>
+
+                            <button type="button" class="action-button">
+                                💬 Comment
+                            </button>
+
+                            <button type="button"
+                                    class="action-button bookmark">
+                                🔖 Save
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                {% empty %}
+
+                    <div class="empty-message">
+                        <h5>No posts available yet.</h5>
+                        <p class="mb-0">
+                            Be the first to share something with the community.
+                        </p>
+                    </div>
+
                 {% endfor %}
-            </div>
-        </div>
 
-      <div class="flex justify-center items-center bg-gray-100 w-full">
-    <div class="p-6 bg-white shadow-md rounded-lg w-full max-w-3xl">
-        <h2 class="text-lg font-semibold mb-4 text-center">Category</h2>
-        <div class="flex flex-wrap justify-center gap-3">
-            {% for d in data %}
-            <a href="{% url 'category_page' c_id=d.id %}" class="px-4 py-2 border rounded-full bg-black text-white font-bold">{{d.Cat_Name}}</a>
-            {% endfor %}
-        </div>
-        <!-- Add Category Button -->
-        <div class="text-center mt-4">
-            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#categoryRequestModal">
-                + Add Category
-            </button>
-        </div>
+            </section>
+
+        </main>
+
     </div>
-</div>
 
-         <div class="modal fade" id="categoryRequestModal" tabindex="-1" aria-labelledby="categoryRequestModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="categoryRequestModalLabel">Request a New Category</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-              </div>
-              <div class="modal-body">
-                <form method="POST" action="{% url 'save_request' %}" enctype="multipart/form-data">
-                  {% csrf_token %}
-                  <div class="mb-3">
-                    <label for="categoryName" class="form-label">Category Name</label>
-                    <input type="text" class="form-control" id="categoryName" name="category_name" required>
-                  </div>
-                  <div class="mb-3">
-                    <label for="categoryImage" class="form-label">Category Image</label>
-                    <input type="file" class="form-control" id="categoryImage" name="category_image" required>
-                  </div>
-                  <button type="submit" class="btn btn-success">Submit Request</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-
-
-
-
-
-{% for c in items %}
-        <section class="featured-content">
-            <h4>{{c.user}} <br>#{{c.category}}</h4>
-            <div class="featured-image-container">
-                <img src="{{c.image.url}}" alt="Featured" class="featured-image">
-            </div>
-            <p>{{c.caption}}</p>
-            <div class="action-buttons">
-                <a class="action-button">♥️</a>
-                <a class="action-button">💬</a>
-                <a class="action-button bookmark">🔖</a>
-            </div>
-        </section>
-        {% endfor %}
-
-    </main>
-
+    <!-- Carousel JavaScript -->
 
     <script>
         function scrollCarousel(direction) {
+
             const carousel = document.getElementById('carousel');
-            const scrollAmount = 300; // adjusted for new card width + gap
+
+            const scrollAmount = 300;
+
             if (direction === 'left') {
-                carousel.scrollLeft -= scrollAmount;
+                carousel.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
             } else {
-                carousel.scrollLeft += scrollAmount;
+                carousel.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
             }
         }
     </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

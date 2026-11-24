@@ -1,159 +1,392 @@
+
 <!doctype html>
 {% load static %}
 <html lang="en">
-  <head>
+<head>
     <title>Discussion Forum | Sign In</title>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'reg/css/style.css' %}">
 
     <style>
-      body.liquid-bg {
-        min-height: 100vh;
-        margin: 0;
-        /* iOS-inspired liquid mesh gradient background */
-        background: radial-gradient(circle at 15% 20%, #1d4ed8 0%, transparent 45%),
-                    radial-gradient(circle at 85% 80%, #6d28d9 0%, transparent 45%),
-                    radial-gradient(circle at 50% 50%, #0f172a 0%, #030712 100%);
-        background-attachment: fixed;
-        display: flex;
-        align-items: center;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      }
+        * {
+            box-sizing: border-box;
+        }
 
-      .login-card {
-        /* iOS Liquid Frosted Glassmorphism */
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid rgba(255, 255, 255, 0.22);
-        border-radius: 24px;
-        padding: 2.5rem 2.25rem;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Lato', sans-serif;
+            background: linear-gradient(
+                -45deg,
+                #080c1f,
+                #151044,
+                #102c50,
+                #241044
+            );
+            background-size: 300% 300%;
+            animation: gradientMove 7s ease infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 30px 15px;
+        }
 
-      .login-card .form-control {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 12px;
-        color: #fff;
-        height: 48px;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      }
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
 
-      .login-card .form-control::placeholder {
-        color: rgba(255, 255, 255, 0.6);
-      }
+        .ftco-section {
+            width: 100%;
+            position: relative;
+            padding: 25px 0;
+        }
 
-      .login-card .form-control:focus {
-        background: rgba(255, 255, 255, 0.16);
-        border-color: #60a5fa;
-        box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.25);
-        color: #fff;
-      }
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
 
-      .login-card .btn-primary {
-        background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%) !important;
-        border: none !important;
-        border-radius: 12px;
-        height: 48px;
-        color: #fff !important;
-        font-weight: 600;
-        box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-        transition: all 0.3s ease;
-      }
+        .heading-section {
+            color: #ffffff;
+            font-size: 48px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            margin-bottom: 35px;
+            text-shadow: 0 0 25px rgba(117, 103, 255, 0.6);
+            animation: fadeDown 0.6s ease both;
+        }
 
-      .login-card .btn-primary:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 12px 25px rgba(59, 130, 246, 0.6);
-      }
+        .login-card {
+            position: relative;
+            background: rgba(12, 17, 40, 0.82);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 22px;
+            padding: 42px 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5),
+                        0 0 25px rgba(111, 91, 255, 0.12);
+            animation: cardAppear 0.65s ease both;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
 
-      .login-card .btn-outline-secondary-custom {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
-        border-radius: 12px;
-        height: 46px;
-        color: #fff !important;
-        font-weight: 500;
-        transition: all 0.25s ease;
-      }
+        .login-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 65px rgba(0, 0, 0, 0.55),
+                        0 0 30px rgba(111, 91, 255, 0.2);
+        }
 
-      .login-card .btn-outline-secondary-custom:hover {
-        background: rgba(255, 255, 255, 0.2) !important;
-        border-color: rgba(255, 255, 255, 0.35) !important;
-      }
+        .login-card h3 {
+            color: #ffffff;
+            font-size: 27px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
 
-      .field-icon {
-        top: 52% !important;
-      }
+        .subtitle {
+            color: #aeb8d5;
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .login-message {
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            border-radius: 9px;
+            font-size: 13px;
+            text-align: center;
+            background: rgba(220, 53, 69, 0.15);
+            border: 1px solid rgba(220, 53, 69, 0.5);
+            color: #ffb9c0;
+        }
+
+        .success-message {
+            background: rgba(25, 135, 84, 0.15);
+            border-color: rgba(25, 135, 84, 0.5);
+            color: #a8edc9;
+        }
+
+        .form-group {
+            position: relative;
+            margin-bottom: 23px;
+        }
+
+        .login-card .form-control {
+            width: 100%;
+            height: 54px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 11px;
+            background: rgba(255, 255, 255, 0.07);
+            color: #ffffff;
+            padding: 12px 17px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        .login-card .form-control::placeholder {
+            color: #aab2ca;
+        }
+
+        .login-card .form-control:focus {
+            background: rgba(255, 255, 255, 0.11);
+            border-color: #8875ff;
+            box-shadow: 0 0 0 3px rgba(136, 117, 255, 0.13),
+                        0 0 18px rgba(136, 117, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .password-input {
+            padding-right: 48px !important;
+        }
+
+        .field-icon {
+            position: absolute;
+            right: 17px;
+            top: 18px;
+            color: #b8c0db;
+            cursor: pointer;
+            z-index: 5;
+            font-size: 17px;
+            transition: color 0.2s ease;
+        }
+
+        .field-icon:hover {
+            color: #ffffff;
+        }
+
+        .login-card .submit {
+            height: 55px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(120deg, #5744d6, #8871ff);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .login-card .submit:hover {
+            background: linear-gradient(120deg, #725ef0, #a18eff);
+            transform: translateY(-3px);
+            box-shadow: 0 9px 25px rgba(113, 91, 240, 0.35);
+        }
+
+        .login-card .submit:active {
+            transform: scale(0.98);
+        }
+
+        .checkbox-wrap {
+            color: #c4cbe0;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .checkbox-wrap input {
+            accent-color: #8875ff;
+            margin-right: 6px;
+        }
+
+        .divider-text {
+            color: #aeb8d5;
+            text-align: center;
+            font-size: 14px;
+            margin: 25px 0 20px;
+        }
+
+        .secondary-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 48px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 11px;
+            background: rgba(255, 255, 255, 0.07);
+            color: #e0e4ff;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #9b8aff;
+            color: #ffffff;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-18px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .heading-section {
+                font-size: 38px;
+            }
+
+            .login-card {
+                padding: 32px 23px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
     </style>
-  </head>
-  <body class="liquid-bg">
-    <section class="ftco-section w-100 py-4">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-md-6 text-center mb-3">
-            <h2 class="heading-section" style="letter-spacing: 0.5px; font-weight: 700; color: #fff; font-size: 2rem;">Discussion Forum</h2>
-          </div>
-        </div>
-        <div class="row justify-content-center">
-          <div class="col-md-6 col-lg-4">
-            <div class="login-wrap login-card">
-              <h3 class="mb-4 text-center" style="color: #fff; font-weight: 600; font-size: 1.25rem;">Welcome Back</h3>
-              <form action="{% url 'login' %}" class="signin-form" method="post" autocomplete="off">
-                {% csrf_token %}
-                <div class="form-group mb-3">
-                  <input type="text" class="form-control" placeholder="Username" name="lo_name" required>
-                </div>
-                <div class="form-group mb-3 position-relative">
-                  <input id="password-field" type="password" class="form-control" placeholder="Password" name="lo_pass" required>
-                  <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password" style="color: rgba(255,255,255,0.7); cursor: pointer; position: absolute; right: 15px; transform: translateY(-50%);"></span>
-                </div>
-                <div class="form-group mb-3">
-                  <button type="submit" class="form-control btn btn-primary submit px-3">Sign In</button>
-                </div>
-                <div class="form-group d-md-flex mb-3">
-                  <div class="w-50">
-                    <label class="checkbox-wrap checkbox-primary" style="color: rgba(255,255,255,0.8); font-size: 0.9rem;">Remember Me
-                      <input type="checkbox" checked>
-                      <span class="checkmark"></span>
-                    </label>
-                  </div>
-                  <div class="w-50 text-md-right">
-                    <a href="#" style="color: #fff"></a>
-                  </div>
-                </div>
-              </form>
+</head>
 
-              <p class="w-100 text-center mt-2 mb-3" style="color: rgba(255,255,255,0.6); font-size: 0.9rem;">&mdash; New to the platform? &mdash;</p>
+<body>
 
-              <div class="form-group mb-2">
-                <a href="{% url 'reg_page' %}" class="form-control btn btn-outline-secondary-custom px-3 d-flex align-items-center justify-content-center text-decoration-none">Sign Up</a>
-              </div>
-              <div class="form-group mb-0">
-                <a href="{% url 'admin_login_page' %}" class="form-control btn btn-outline-secondary-custom px-3 d-flex align-items-center justify-content-center text-decoration-none">Admin Login</a>
-              </div>
+<section class="ftco-section">
+    <div class="container">
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center mb-4">
+                <h2 class="heading-section">FORUM</h2>
             </div>
-          </div>
         </div>
-      </div>
-    </section>
 
-    <script>
-      document.querySelector('.toggle-password').addEventListener('click', function () {
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+
+                <div class="login-card">
+
+                    <h3 class="text-center">Welcome Back</h3>
+                    <p class="subtitle">Sign in to continue to your account.</p>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="login-message {% if message.tags == 'success' %}success-message{% endif %}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form action="{% url 'login' %}"
+                          class="signin-form"
+                          method="post"
+                          autocomplete="off">
+
+                        {% csrf_token %}
+
+                        <div class="form-group">
+                            <input
+                                type="text"
+                                class="form-control"
+                                placeholder="Username"
+                                name="lo_name"
+                                required
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <input
+                                id="password-field"
+                                type="password"
+                                class="form-control password-input"
+                                placeholder="Password"
+                                name="lo_pass"
+                                required
+                            >
+
+                            <span class="fa fa-fw fa-eye field-icon toggle-password"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="form-control submit">
+                                SIGN IN
+                            </button>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-wrap">
+                                <input type="checkbox" checked>
+                                Remember Me
+                            </label>
+                        </div>
+
+                    </form>
+
+                    <p class="divider-text">— New to the platform? —</p>
+
+                    <div class="form-group">
+                        <a href="{% url 'reg_page' %}" class="secondary-btn">
+                            <i class="fa fa-user-plus" style="margin-right: 9px;"></i>
+                            Sign Up
+                        </a>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <a href="{% url 'admin_login_page' %}" class="secondary-btn">
+                            <i class="fa fa-lock" style="margin-right: 9px;"></i>
+                            Admin Login
+                        </a>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    document.querySelector('.toggle-password').addEventListener('click', function () {
+
         var passwordField = document.querySelector('#password-field');
-        var type = passwordField.type === 'password' ? 'text' : 'password';
-        passwordField.type = type;
-        this.classList.toggle('fa-eye-slash');
-      });
-    </script>
 
-    <script src="{% static 'reg/js/jquery.min.js' %}"></script>
-    <script src="{% static 'reg/js/popper.js' %}"></script>
-    <script src="{% static 'reg/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'reg/js/main.js' %}"></script>
-  </body>
+        if (passwordField.type === 'password') {
+            passwordField.type = 'text';
+            this.classList.remove('fa-eye');
+            this.classList.add('fa-eye-slash');
+        } else {
+            passwordField.type = 'password';
+            this.classList.remove('fa-eye-slash');
+            this.classList.add('fa-eye');
+        }
+
+    });
+</script>
+
+<script src="{% static 'reg/js/jquery.min.js' %}"></script>
+<script src="{% static 'reg/js/popper.js' %}"></script>
+<script src="{% static 'reg/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'reg/js/main.js' %}"></script>
+
+</body>
 </html>

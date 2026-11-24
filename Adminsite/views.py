@@ -9,13 +9,33 @@ from .models import Admin_RegDB
 def category_page(request):
     return render(request,"Add_Category.html")
 
+
 def save_category(request):
-    if request.method =="POST":
-        c_name = request.POST.get('cat_name')
-        c_img = request.FILES['cat_image']
-        obj=CategoryDB(Cat_Name=c_name,Cat_Image=c_img)
+    if request.method == "POST":
+        c_name = request.POST.get('cat_name', '').strip()
+
+        # Check whether the category already exists
+        if CategoryDB.objects.filter(Cat_Name__iexact=c_name).exists():
+            messages.warning(
+                request,
+                "Category already exists! Please choose a different name."
+            )
+            return redirect(category_page)
+
+        c_img = request.FILES.get('cat_image')
+
+        if not c_img:
+            messages.error(request, "Please select a category image.")
+            return redirect(category_page)
+
+        obj = CategoryDB(Cat_Name=c_name, Cat_Image=c_img)
         obj.save()
+
+        messages.success(request, "Category added successfully!")
         return redirect(category_page)
+
+    return redirect(category_page)
+
 def edit_category(request,c_id):
     data = CategoryDB.objects.get(id=c_id)
     return render(request,"Edit_Category.html",{'data':data})
